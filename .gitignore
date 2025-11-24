@@ -1,0 +1,27 @@
+# Environnement virtuel
+venv/
+env/
+
+# Fichiers Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Base de données Django
+db.sqlite3
+
+# Caches et logs
+*.log
+
+# Fichiers générés par Django
+staticfiles/
+media/
+
+# MacOS
+.DS_Store
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
