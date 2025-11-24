@@ -1,0 +1,13 @@
+[run]
+source =
+    tasks
+    todo
+omit =
+    */migrations/*
+    */admin.py
+    manage.py
+    todo/asgi.py
+    todo/wsgi.py
+
+[report]
+show_missing = True
