@@ -1,0 +1,27 @@
+{
+  "name": "to-do-list-dirty",
+  "version": "1.3.0",
+  "description": "To-Do-List application built with django to Create, Update and Delete tasks. <br> <br> ![todolist](https://user-images.githubusercontent.com/65074901/125083144-a5e03900-e0e5-11eb-9092-da716a30a5f3.JPG)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:a11y": "pa11y http://localhost:8000 --standard WCAG2A",
+    "build": "npm run test:a11y"
+
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asmatrouky/to-do-list-dirty.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asmatrouky/to-do-list-dirty/issues"
+  },
+  "homepage": "https://github.com/asmatrouky/to-do-list-dirty#readme",
+  "devDependencies": {
+    "pa11y": "^9.0.1"
+  }
+}
