@@ -12,14 +12,6 @@ fi
 RAW="$1"
 VERSION="${RAW#version=}"
 
-# Si l'argument n'était pas sous la forme "version=..."
-if [ -z "$VERSION" ] || [ "$RAW" = "$VERSION" ]; then
-  echo "Usage: $0 version=X.Y.Z"
-  exit 1
-fi
-
-echo "➡ Version demandée : $VERSION"
-
 # --- 2. Vérifier que le dépôt Git est propre ---
 
 if ! git diff-index --quiet HEAD --; then
