@@ -1,0 +1,68 @@
+- id: "TC001"
+  type: "auto"
+  description: "Affichage texte d'une tâche via __str__"
+  django_test: "tasks.tests.TestTaskUrls.test_task_str"
+
+- id: "TC002"
+  type: "auto"
+  description: "Page d'accueil accessible, les tasks + form"
+  django_test: "tasks.tests.TestTaskUrls.test_home_get"
+
+- id: "TC003"
+  type: "auto"
+  description: "Création d'une Task via POST sur la home"
+  django_test: "tasks.tests.TestTaskUrls.test_home_post_creates_task"
+
+- id: "TC004"
+  type: "auto"
+  description: "Affichage du formulaire d'édition pour une Task existante"
+  django_test: "tasks.tests.TestTaskUrls.test_update_task_get"
+
+- id: "TC005"
+  type: "auto"
+  description: "Mise à jour d'une Task existante via POST"
+  django_test: "tasks.tests.TestTaskUrls.test_update_task_post_updates_task"
+
+- id: "TC006"
+  type: "auto"
+  description: "Affichage de la page de confirmation de suppression"
+  django_test: "tasks.tests.TestTaskUrls.test_delete_task_get"
+
+- id: "TC007"
+  type: "auto"
+  description: "Suppression d'une Task via POST"
+  django_test: "tasks.tests.TestTaskUrls.test_delete_task_post_deletes_task"
+
+- id: "TC008"
+  type: "auto"
+  description: "Context processor app_version expose bien APP_VERSION"
+  django_test: "tasks.tests.TestContextProcessor.test_app_version_context_processor"
+
+- id: "TC009"
+  type: "auto"
+  description: "Import de tâches depuis dataset.json"
+  django_test: "tasks.tests.TestDatasetImport.test_dataset_import"
+
+- id: "TC010"
+  type: "manual"
+  description: "Vérifier visuellement que le formulaire home est lisible et aligné"
+
+- id: "TC011"
+  type: "manual"
+  description: "Vérifier qu'une Task complétée est bien barrée"
+
+- id: "TC012"
+  type: "manual"
+  description: "Tester manuellement la navigation : création, édition, suppression enchaînées"
+
+- id: "TC013"
+  type: "manual"
+  description: "Vérifier sur mobile (ou fenêtre réduite) que la page reste utilisable"
+
+- id: "TC014"
+  type: "manual"
+  description: "Vérifier qu'aucun message d'erreur serveur n'apparaît dans les pages principales"
+
+- id: "TC015"
+  type: "manual"
+  description: "Vérifier que la version affichée dans le footer correspond à VERSION.txt"

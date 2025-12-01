@@ -137,3 +137,5 @@ VERSION_FILE = os.path.join(BASE_DIR, "VERSION.txt")
 
 with open(VERSION_FILE) as f:
     APP_VERSION = f.read()
+
+TEST_RUNNER = "tasks.tests.JSONTestRunner"
