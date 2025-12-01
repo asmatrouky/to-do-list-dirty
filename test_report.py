@@ -52,7 +52,9 @@ def main():
 
         print(f"{test_id} | {test_type} | {status}")
 
-    pct = lambda n: (n / total * 100) if total else 0.0
+    def pct(n):
+        return (n / total * 100) if total else 0.0
+    
     print()
     print(f"Number of tests: {total}")
     print(f"✅Passed tests: {passed} ({pct(passed):.1f}%)")
