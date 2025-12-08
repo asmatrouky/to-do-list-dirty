@@ -4,10 +4,24 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
 BASE_URL = "http://127.0.0.1:8000/"
 RESULT_FILE = "result_test_selenium.json"
+
+def create_driver():
+    options = Options()
+    options.add_argument("--headless")               # mode sans interface (obligatoire CI)
+    options.add_argument("--no-sandbox")             # obligatoire GitHub Actions
+    options.add_argument("--disable-dev-shm-usage")  # évite /dev/shm trop petit
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920,1080")
+
+    return webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=options
+    )
 
 
 def write_selenium_result(test_id, status):
@@ -151,7 +165,7 @@ def run_tc017(driver):
 
 
 def main():
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    driver = create_driver()
     driver.maximize_window()
 
     try:
