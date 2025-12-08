@@ -89,9 +89,18 @@ jobs:
                -d "{\"content\": \"✅ CI Passed successfully on branch: ${{ github.ref_name }}\"}" \
                ${{ secrets.DISCORD_WEBHOOK_URL }}
 
+    
       - name: Notify failure (Discord)
         if: failure()
         run: |
           curl -H "Content-Type: application/json" \
                -d "{\"content\": \"❌ CI Failed on branch: ${{ github.ref_name }}\"}" \
                ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Discord – Send test report
+        if: always()
+        run: |
+          REPORT=$(cat test_report_output.txt | sed 's/"/\\"/g')
+          curl -H "Content-Type: application/json" \
+            -d "{\"content\": \"📄 **Test Report**\n\`\`\`${REPORT}\`\`\`\"}" \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
