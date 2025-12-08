@@ -19,17 +19,24 @@ jobs:
         with:
           python-version: "3.11"
 
-      # Installer pipenv
-      - name: Install pipenv
-        run: pip install pipenv
+      # Installer pipenv + dépendances
+      - name: Install pipenv and dependencies
+        run: |
+          pip install pipenv
+          pipenv --python $(which python)
+          pipenv install --dev
 
-      # Installer dépendances
-      - name: Install dependencies
-        run: pipenv install --dev
-
-      # Installer Chrome pour Selenium
+      # Installer Google Chrome
       - name: Install Chrome
-        run: sudo apt-get update && sudo apt-get install -y google-chrome-stable
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      # Installer ChromeDriver
+      - name: Install ChromeDriver
+        run: |
+          sudo apt-get install -y chromium-chromedriver
+          sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver || true
 
       # Vérification du code
       - name: Run Ruff
@@ -39,13 +46,9 @@ jobs:
       - name: Run Django tests
         run: pipenv run python manage.py test
 
-      # Test Selenium TC016
-      - name: Run Selenium TC016
-        run: pipenv run python e2e_selenium_TC016.py
-
-      # Test Selenium TC017
-      - name: Run Selenium TC017
-        run: pipenv run python e2e_selenium_TC017.py
+      # Tests Selenium
+      - name: Run Selenium tests (TC016 + TC017)
+        run: pipenv run python e2e_selenium_tasks.py
 
       # Rapport final
       - name: Run test report

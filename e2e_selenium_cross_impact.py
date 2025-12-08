@@ -1,6 +1,5 @@
 import time
 import json
-from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -80,7 +79,7 @@ def main():
         task_ids = [tid for tid, _ in tasks_after]
 
         assert taskA_id in task_ids, (
-            f"ERREUR : La tâche A (id={taskA_id}) aurait dû rester mais elle n'est plus détectée "
+            f"ERREUR :  (id={taskA_id}) plus détectée "
         )
 
         print("\nSUCCESS : Test TC017 OK ")
