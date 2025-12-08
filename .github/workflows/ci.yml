@@ -46,6 +46,12 @@ jobs:
       - name: Run Django tests
         run: pipenv run python manage.py test
 
+      # Lancer serveur Django pour Selenium
+      - name: Start Django server
+        run: |
+          pipenv run python manage.py runserver 0.0.0.0:8000 &
+          sleep 5
+
       # Tests Selenium
       - name: Run Selenium tests (TC016 + TC017)
         run: pipenv run python e2e_selenium_tasks.py

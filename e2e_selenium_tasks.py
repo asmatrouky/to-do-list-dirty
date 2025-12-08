@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
-BASE_URL = "http://127.0.0.1:8000/"
+BASE_URL = "http://localhost:8000/"
 RESULT_FILE = "result_test_selenium.json"
 
 def create_driver():
