@@ -85,6 +85,49 @@ class TestTaskUrls(TestCase):
         self.assertFalse(Task.objects.filter(id=self.task.id).exists())
 
 
+class TestTaskPriorityFeature(TestCase):
+
+    @tc("TC018")
+    def test_task_has_priority_field(self):
+        task = Task.objects.create(title="Avec priorité")
+        self.assertTrue(hasattr(task, "priority"))
+
+    @tc("TC019")
+    def test_task_default_priority_false(self):
+        task = Task.objects.create(title="Test")
+        self.assertFalse(task.priority)
+
+    @tc("TC020")
+    def test_form_includes_priority_field(self):
+        form = TaskForm()
+        self.assertIn("priority", form.fields)
+
+    @tc("TC021")
+    def test_create_priority_task(self):
+        data = {
+            "title": "Urgent",
+            "complete": False,
+            "priority": True,
+        }
+        self.client.post("/", data=data)
+        task = Task.objects.get(title="Urgent")
+        self.assertTrue(task.priority)
+
+    @tc("TC022")
+    def test_priority_tasks_appear_first_on_homepage(self):
+        Task.objects.create(title="Normal 1", priority=False)
+        Task.objects.create(title="Urgent 1", priority=True)
+        Task.objects.create(title="Normal 2", priority=False)
+        Task.objects.create(title="Urgent 2", priority=True)
+
+        response = self.client.get("/")
+        tasks = list(response.context["tasks"])
+
+        self.assertTrue(tasks[0].priority)
+        self.assertTrue(tasks[1].priority)
+        self.assertFalse(tasks[-1].priority)
+
+
 class TestContextProcessor(TestCase):
     def setUp(self):
         self.factory = RequestFactory()

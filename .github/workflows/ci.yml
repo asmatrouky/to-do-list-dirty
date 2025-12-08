@@ -1,0 +1,68 @@
+name: CI - ToDo List
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Récupération du code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Installer Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      # Installer pipenv
+      - name: Install pipenv
+        run: pip install pipenv
+
+      # Installer dépendances
+      - name: Install dependencies
+        run: pipenv install --dev
+
+      # Installer Chrome pour Selenium
+      - name: Install Chrome
+        run: sudo apt-get update && sudo apt-get install -y google-chrome-stable
+
+      # Vérification du code
+      - name: Run Ruff
+        run: pipenv run ruff check .
+
+      # Tests Django
+      - name: Run Django tests
+        run: pipenv run python manage.py test
+
+      # Test Selenium TC016
+      - name: Run Selenium TC016
+        run: pipenv run python e2e_selenium_TC016.py
+
+      # Test Selenium TC017
+      - name: Run Selenium TC017
+        run: pipenv run python e2e_selenium_TC017.py
+
+      # Rapport final
+      - name: Run test report
+        run: pipenv run python test_report.py
+
+      # Ajouter commentaire sur la PR
+      - name: Comment test report in PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const result = fs.readFileSync('test_report_output.txt', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "### Résultat des tests\n" + result
+            });

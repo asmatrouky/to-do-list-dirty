@@ -1,0 +1,30 @@
+TC001 | auto | ✅Passed
+TC002 | auto | ✅Passed
+TC003 | auto | ✅Passed
+TC004 | auto | ✅Passed
+TC005 | auto | ✅Passed
+TC006 | auto | ✅Passed
+TC007 | auto | ✅Passed
+TC008 | auto | ✅Passed
+TC009 | auto | ✅Passed
+TC010 | manual | 🫱Manual test needed
+TC011 | manual | 🫱Manual test needed
+TC012 | manual | 🫱Manual test needed
+TC013 | manual | 🫱Manual test needed
+TC014 | manual | 🫱Manual test needed
+TC015 | manual | 🫱Manual test needed
+TC016 | auto-selenium | ✅Passed
+TC017 | auto-selenium | ✅Passed
+TC018 | auto | ✅Passed
+TC019 | auto | ✅Passed
+TC020 | auto | ✅Passed
+TC021 | auto | ✅Passed
+TC022 | auto | ✅Passed
+
+=== SUMMARY ===
+Number of tests: 22
+✅Passed tests: 16 (72.7%)
+❌Failed tests: 0 (0.0%)
+🕳Not found tests: 0 (0.0%)
+🫱Manual tests: 6 (27.3%)
+Total valid (Passed + Manual): 22 (100.0%)

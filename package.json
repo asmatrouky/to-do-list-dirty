@@ -7,8 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:a11y": "pa11y http://localhost:8000 --standard WCAG2A",
     "build": "npm run test:a11y"
-
-
   },
   "repository": {
     "type": "git",

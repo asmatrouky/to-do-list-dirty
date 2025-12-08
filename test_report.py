@@ -3,90 +3,74 @@ from pathlib import Path
 import yaml
 
 TEST_LIST_FILE = Path("test_list.yaml")
-RESULTS_AUTO_FILE = Path("result_test_auto.json")
-RESULTS_SELENIUM_FILE = Path("result_test_selenium.json")
+AUTO_RESULTS_FILE = Path("result_test_auto.json")
+SELENIUM_RESULTS_FILE = Path("result_test_selenium.json")
 
-
-# --------------------------
-# Chargement des fichiers
-# --------------------------
 
 def load_test_list():
     if not TEST_LIST_FILE.exists():
-        print("❌ test_list.yaml introuvable.")
+        print(f"❌ Fichier introuvable : {TEST_LIST_FILE}")
         return []
     with TEST_LIST_FILE.open(encoding="utf-8") as f:
         return yaml.safe_load(f) or []
 
-
-def load_results(path):
-    """Charge un fichier JSON sous forme { 'TC001': 'passed', ... }"""
-    if not path.exists():
+def load_results(file_path: Path):
+    if not file_path.exists():
+        print(f"⚠ Aucun fichier {file_path}, aucun résultat chargé.")
         return {}
 
-    with path.open(encoding="utf-8") as f:
+    with file_path.open(encoding="utf-8") as f:
         data = json.load(f)
 
-    # Si format {"TC016": "passed"} -> OK
     if isinstance(data, dict):
         return data
 
-    # Sinon si format liste -> convertir
+    results = {}
     if isinstance(data, list):
-        converted = {}
         for item in data:
             tid = item.get("id") or item.get("test_case_id")
-            status = item.get("status")
-            if tid:
-                converted[tid] = status
-        return converted
-
-    return {}
+            status = item.get("status") or item.get("outcome")
+            if tid and status:
+                results[tid] = status
+    return results
 
 
-# --------------------------
-# Fonction d’interprétation
-# --------------------------
 
 def interpret_status(raw):
     if not raw:
         return "🕳Not found"
+
     s = str(raw).lower()
+
     if s in {"passed", "ok", "success"}:
         return "✅Passed"
-    if s in {"failed", "error"}:
+    if s in {"failed", "fail", "error"}:
         return "❌Failed"
+
     return "🕳Not found"
 
 
-# --------------------------
-# Programme principal
-# --------------------------
-
+# PROGRAMME PRINCIPAL
 def main():
     test_list = load_test_list()
-    auto_results = load_results(RESULTS_AUTO_FILE)
-    selenium_results = load_results(RESULTS_SELENIUM_FILE)
+    auto_results = load_results(AUTO_RESULTS_FILE)
+    selenium_results = load_results(SELENIUM_RESULTS_FILE)
 
     total = len(test_list)
-    passed = failed = not_found = manual = 0
+    passed = failed = manual = not_found = 0
 
-    print()
+    output_lines = []
 
     for test in test_list:
         test_id = test.get("id")
-        test_type = test.get("type", "auto")
+        ttype = test.get("type", "auto")
 
-        # ---------- MANUAL ----------
-        if test_type == "manual":
+        if ttype == "manual":
             status = "🫱Manual test needed"
             manual += 1
 
-        # ---------- SELENIUM ----------
-        elif test_type == "auto-selenium":
-            raw = selenium_results.get(test_id)
-            status = interpret_status(raw)
-
+        elif ttype == "auto-selenium":
+            status = interpret_status(selenium_results.get(test_id))
             if status.startswith("✅"):
                 passed += 1
             elif status.startswith("❌"):
@@ -94,11 +78,8 @@ def main():
             else:
                 not_found += 1
 
-        # ---------- UNITTEST ----------
-        else:
-            raw = auto_results.get(test_id)
-            status = interpret_status(raw)
-
+        else:  # AUTO DJANGO
+            status = interpret_status(auto_results.get(test_id))
             if status.startswith("✅"):
                 passed += 1
             elif status.startswith("❌"):
@@ -106,19 +87,34 @@ def main():
             else:
                 not_found += 1
 
-        print(f"{test_id} | {test_type} | {status}")
-
-    # ---------- Summary ----------
-    def pct(n): return (n / total * 100) if total else 0
-
-    print("\n=== SUMMARY ===")
-    print(f"Number of tests: {total}")
-    print(f"✅Passed tests: {passed} ({pct(passed):.1f}%)")
-    print(f"❌Failed tests: {failed} ({pct(failed):.1f}%)")
-    print(f"🕳Not found tests: {not_found} ({pct(not_found):.1f}%)")
-    print(f"🫱Manual tests: {manual} ({pct(manual):.1f}%)")
-    print(f"Total valid (Passed + Manual): {passed + manual} ({pct(passed + manual):.1f}%)")
+        line = f"{test_id} | {ttype} | {status}"
+        print(line)
+        output_lines.append(line)
 
 
+    def pct(n): 
+        return (n / total * 100) if total else 0
+
+    summary = f"""
+=== SUMMARY ===
+Number of tests: {total}
+✅Passed tests: {passed} ({pct(passed):.1f}%)
+❌Failed tests: {failed} ({pct(failed):.1f}%)
+🕳Not found tests: {not_found} ({pct(not_found):.1f}%)
+🫱Manual tests: {manual} ({pct(manual):.1f}%)
+Total valid (Passed + Manual): {passed + manual} ({pct(passed + manual):.1f}%)
+"""
+
+    print(summary)
+    output_lines.append(summary)
+
+   
+    with open("test_report_output.txt", "w", encoding="utf-8") as f:
+        f.write("\n".join(output_lines))
+
+    print("📄 test_report_output.txt généré pour la CI.")
+
+
+# --------------------------------------------------------------
 if __name__ == "__main__":
     main()

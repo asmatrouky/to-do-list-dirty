@@ -4,8 +4,7 @@ from .forms import TaskForm
 
 # Create your views here.
 def index(request):
-	tasks = Task.objects.all()
-
+	tasks = Task.objects.all().order_by('-priority', 'created')
 	form = TaskForm()
 
 	if request.method == 'POST':

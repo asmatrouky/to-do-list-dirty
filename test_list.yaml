@@ -69,8 +69,28 @@
 
 - id: "TC016"
   type: "auto-selenium"
-  description: "Se connecter manuellement à l'application, compter le nombre de tâche, créer 10 tâches, supprimer 10 tâches et compter à nouveau le nombre de tâche"
+  description: "Se connecter à l'application, compter le nombre de tâche, créer 10 tâches, supprimer 10 tâches et compter à nouveau le nombre de tâche"
 
 - id: TC017
   type: "auto-selenium"
-  description: Vérifie qu'une suppression ne supprime pas la mauvaise tâche
+  description: "Vérifie qu'une suppression ne supprime pas la mauvaise tâche"
+
+- id: "TC018"
+  type: "auto"
+  description: "Le modèle Task doit contenir un champ priority"
+
+- id: "TC019"
+  type: "auto"
+  description: "Le champ priority doit valoir False par défaut"
+
+- id: "TC020"
+  type: "auto"
+  description: "Le formulaire TaskForm doit contenir le champ priority"
+
+- id: "TC021"
+  type: "auto"
+  description: "Création d’une tâche prioritaire via POST"
+
+- id: "TC022"
+  type: "auto"
+  description: "Les tâches prioritaires sont affichées en premier sur la home"
