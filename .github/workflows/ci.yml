@@ -75,3 +75,23 @@ jobs:
               repo: context.repo.repo,
               body: "### Résultat des tests\n" + result
             });
+
+      - name: Notify start (Discord)
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d "{\"content\": \"🚀 CI Started on branch: ${{ github.ref_name }}\"}" \
+               ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Notify success (Discord)
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d "{\"content\": \"✅ CI Passed successfully on branch: ${{ github.ref_name }}\"}" \
+               ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Notify failure (Discord)
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d "{\"content\": \"❌ CI Failed on branch: ${{ github.ref_name }}\"}" \
+               ${{ secrets.DISCORD_WEBHOOK_URL }}
