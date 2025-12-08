@@ -66,3 +66,11 @@
 - id: "TC015"
   type: "manual"
   description: "Vérifier que la version affichée dans le footer correspond à VERSION.txt"
+
+- id: "TC016"
+  type: "auto-selenium"
+  description: "Se connecter manuellement à l'application, compter le nombre de tâche, créer 10 tâches, supprimer 10 tâches et compter à nouveau le nombre de tâche"
+
+- id: TC017
+  type: "auto-selenium"
+  description: Vérifie qu'une suppression ne supprime pas la mauvaise tâche

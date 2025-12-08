@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 set -euo pipefail
 
 # 1. Récupérer le numéro de version -> Usage : ./build.sh 1.1.0
