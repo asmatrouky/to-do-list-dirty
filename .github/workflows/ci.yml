@@ -100,7 +100,14 @@ jobs:
       - name: Discord – Send test report
         if: always()
         run: |
-          REPORT=$(cat test_report_output.txt | sed 's/"/\\"/g')
+          REPORT=$(sed -e 's/"/\\"/g' test_report_output.txt)
           curl -H "Content-Type: application/json" \
-            -d "{\"content\": \"📄 **Test Report**\n\`\`\`${REPORT}\`\`\`\"}" \
+            -d "{
+                  \"embeds\": [
+                    {
+                      \"title\": \"📄 Test Report\",
+                      \"description\": \"\`\`\`\n$REPORT\n\`\`\`\"
+                    }
+                  ]
+                }" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
