@@ -12,9 +12,9 @@ RESULT_FILE = "result_test_selenium.json"
 
 def create_driver():
     options = Options()
-    options.add_argument("--headless")               # mode sans interface (obligatoire CI)
-    options.add_argument("--no-sandbox")             # obligatoire GitHub Actions
-    options.add_argument("--disable-dev-shm-usage")  # évite /dev/shm trop petit
+    options.add_argument("--headless")               
+    options.add_argument("--no-sandbox")            
+    options.add_argument("--disable-dev-shm-usage") 
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
 
