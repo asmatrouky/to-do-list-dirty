@@ -13,8 +13,12 @@ def generate_pdf():
     c.drawString(50, height - 50, "Bon de Livraison - Résultat des Tests")
 
     c.setFont("Helvetica", 12)
-    c.drawString(50, height - 80, f"Date : {datetime.now().isoformat(sep=' ', timespec='seconds')}")
-
+    date_text = datetime.now().isoformat(sep=" ", timespec="seconds")
+    c.drawString(
+        50,
+        height - 80,
+        f"Date : {date_text}"
+    )
     c.setFont("Helvetica", 11)
     y = height - 120
 
