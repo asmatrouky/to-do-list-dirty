@@ -8,6 +8,7 @@ django = "==3.2.5"
 pyyaml = "*"
 selenium = "*"
 webdriver-manager = "*"
+reportlab = "*"
 
 [dev-packages]
 coverage = "*"
