@@ -66,6 +66,15 @@ jobs:
       - name: Run test report
         run: pipenv run python test_report.py
 
+      - name: Generate delivery note PDF
+        run: pipenv run python generate_delivery_note.py
+      
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: delivery-note
+          path: delivery_note.pdf
+
       # Ajouter commentaire sur la PR
       - name: Comment test report in PR
         if: github.event_name == 'pull_request'
@@ -80,6 +89,19 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: "### Résultat des tests\n" + result
+            });
+      
+      - name: Comment PDF download link
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "📄 **Delivery Note PDF generated.**\n\nTélécharger le PDF ici :\n👉 _Disponible dans les Artifacts du workflow_"
             });
 
       - name: Notify success (Discord)
