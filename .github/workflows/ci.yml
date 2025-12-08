@@ -100,13 +100,17 @@ jobs:
       - name: Discord – Send test report
         if: always()
         run: |
-          REPORT=$(sed -e 's/"/\\"/g' test_report_output.txt)
+          REPORT=$(cat test_report_output.txt \
+            | sed 's/`/ /g' \
+            | sed ':a;N;$!ba;s/\n/\\n/g' \
+            | sed 's/"/\\"/g')
+
           curl -H "Content-Type: application/json" \
             -d "{
                   \"embeds\": [
                     {
                       \"title\": \"📄 Test Report\",
-                      \"description\": \"\`\`\`\n$REPORT\n\`\`\`\"
+                      \"description\": \"$REPORT\"
                     }
                   ]
                 }" \
